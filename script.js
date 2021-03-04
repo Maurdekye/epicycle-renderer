@@ -22,30 +22,26 @@ function render_circles(pen, frame, sinusoids) {
 }
 
 function discrete_fourier_transform_decomposition(path, n_frequencies=10, normalize_signal=true, discrete_timestep=1) {
-  
-  console.log(path.length);
 
   if (path.length <= 1)
     return [[], 0];
 
-  path.push(path[0]);
+  var _path = path.concat([path[0]]);
 
   var reals, imags, time;
-
-  // console.log(path);
 
   if (normalize_signal) {
     // reinterpret x and y coordinates into evenly-spaced arrays
 
-    var last = path[0];
+    var last = _path[0];
     time = 0;
     var discrete_time = 0;
     var reals = [];
     var imags = [];
 
-    for (var i = 1; i < path.length; i++) {
+    for (var i = 1; i < _path.length; i++) {
       var [lx, ly] = last;
-      var next = path[i];
+      var next = _path[i];
       var [nx, ny] = next;
       var [dx, dy] = [nx - lx, ny - ly];
       var magnitude = Math.sqrt(dx**2 + dy**2);
@@ -59,10 +55,12 @@ function discrete_fourier_transform_decomposition(path, n_frequencies=10, normal
       last = next;
     }
   } else {
-    reals = path.map(t => t[0]);
-    imags = path.map(t => t[1]);
-    time = path.length;
+    reals = _path.map(t => t[0]);
+    imags = _path.map(t => t[1]);
+    time = _path.length;
   }
+
+  console.log(reals.length);
 
   // compute epicycles
 
