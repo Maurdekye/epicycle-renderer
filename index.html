@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/fourier/fourier.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Inverse Fourier Transform</title>
+</head>
+<body>
+  <div id="container" class="vflex">
+    <div class="spacer"></div>
+    <div class="hflex">
+      <div class="spacer2"></div>
+      <div class="spacer2"></div>
+      <div class="vflex">
+        <h2 class="center">Rendered Image</h2>
+        <canvas id="main-canvas" width="512" height="512"></canvas>
+        <div class="hflex">
+          <div class="spacer"></div>
+          <a href="#" class="button" id="reset-frequency-image-button">Restart</a>
+          <div class="wrapper"><label>Normalize input signal? <input type="checkbox" id="normalize-signal" checked></label></div>
+          <div class="spacer"></div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="spacer vflex">
+        <div class="spacer"></div>
+        <input type="range" id="num-frequencies" value="80">
+        <div class="spacer">
+          <p id="num-frequencies-display"></p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="vflex">
+        <h2 class="center">Draw Here</h2>
+        <canvas id="drawing-canvas" width="512" height="512"></canvas>
+        <div class="hflex">
+          <div class="spacer"></div>
+          <a href="#" class="button" id="clear-drawing-button">Clear</a>
+          <div class="spacer"></div>
+        </div>
+      </div>
+      <div class="spacer2"></div>
+      <div class="spacer2"></div>
+    </div>
+    <div class="spacer2"></div>
+  </div>
+</body>
+</html>
