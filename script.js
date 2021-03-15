@@ -102,34 +102,48 @@ function main() {
   var sinusoids = [];
   var pathlength = 0;
 
-  drawing_canvas.addEventListener('mousedown', e => {
+  function get_touch_pos(touchev) {
+    touchev.preventDefault();
+    var touch = touchev.changedTouches[0];
+    var nx = touch.clientX - touchev.target.offsetLeft;
+    var ny = touch.clientY - touchev.target.offsetTop;
+    return [nx, ny];
+  }
+
+  function draw_start(nx, ny) {
     drawpen.clearRect(0, 0, dw, dh);
     dragging = true;
-    x = e.offsetX;
-    y = e.offsetY;
+    x = nx;
+    y = ny;
     drawpath = [[x, y]];
-  });
+  }
+  drawing_canvas.addEventListener('mousedown', e => draw_start(e.offsetX, e.offsetY));
+  drawing_canvas.addEventListener('touchstart', e => draw_start(...get_touch_pos(e)));
   
-  drawing_canvas.addEventListener('mouseup', e => {
+  function draw_end(nx, ny) {
     drawpen.beginPath();
-    drawpen.moveTo(e.offsetX, e.offsetY);
+    drawpen.moveTo(nx, ny);
     drawpen.lineTo(drawpath[0][0], drawpath[0][1]);
     drawpen.stroke();
     dragging = false;
     reset_rendered_canvas();
-  });
+  }
+  drawing_canvas.addEventListener('mouseup', e => draw_end(e.offsetX, e.offsetY));
+  drawing_canvas.addEventListener('touchend', e => draw_end(...get_touch_pos(e)));
 
-  drawing_canvas.addEventListener('mousemove', e => {
+  function draw_drag(nx, ny) {
     if (dragging) {
       drawpen.beginPath();
       drawpen.moveTo(x, y);
-      x = e.offsetX;
-      y = e.offsetY;
+      x = nx;
+      y = ny;
       drawpen.lineTo(x, y);
       drawpen.stroke();
       drawpath.push([x, y]);
     }
-  });
+  };
+  drawing_canvas.addEventListener('mousemove', e => draw_drag(e.offsetX, e.offsetY));
+  drawing_canvas.addEventListener('touchmove', e => draw_drag(...get_touch_pos(e)));
 
   function clear_draw_canvas() {
     drawpen.clearRect(0, 0, dw, dh);
