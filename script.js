@@ -170,10 +170,12 @@ function main() {
     $("#num-frequencies-display").innerHTML = get_num_frequencies();
   });
 
-  $("#num-frequencies").addEventListener('mouseup', e => {
+  function set_num_frequencies() {
     num_frequencies = get_num_frequencies();
     reset_rendered_canvas();
-  });
+  }
+  $("#num-frequencies").addEventListener('mouseup', () => set_num_frequencies());
+  $("#num-frequencies").addEventListener('touchend', () => set_num_frequencies());
 
   $("#normalize-signal").onclick = () => {
     normalize_signal = $("#normalize-signal").checked;
